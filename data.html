@@ -1,0 +1,451 @@
+{% extends 'config.html' %}
+{% set active_page = "data" %}
+{% set ns = namespace(items=0) %}
+
+{% block datacontent %}
+<div class="container is-justify-content-left" style="overflow-y: scroll; height: 900px;">
+    <br>
+          <div class="notification is-success is-light">
+              Für den User {{ surname }} {{ name }} sind folgende Daten registriert:
+          </div>
+    <br><br>
+    <div class="container">
+    </div>
+    <h4 style="color: black;">Kunden Daten</h4>
+    <table id="data" class="table is-bordered is-narrow is-hoverable is-fullwidth dataTable responsive">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Kundenname</th>
+          <th>API Key</th>
+          <th>Cloud</th>
+          <th>Kunden Domain</th>
+          <th>Editieren</th>         
+        </tr>
+      </thead>
+      <tbody>
+        {% set ns = namespace(foo = 0) %}
+        {% set ns = namespace(list = []) %}
+        {% for name in assign %}
+          {{ ns.list.append(name) or "" }}
+        {% endfor %}
+        {% for item in awesome %}
+        <tr>
+          <th>{{ loop.index }}</th>
+          <input type="hidden" class="get-id" value="{{item[0]}}">
+          <td class="get-name">{{ item[1] }}</td>
+          <td>{{ item[2] }}</td>
+          <td>{{ item[3] }}</td>
+          <td class="get-domain">{{ item[4] }}</td> 
+          <td>
+            <button id="{{ item[0] }}{{ item[1] }}" name="ku-id" style="background-color: white;" class="js-modal-trigger button is-small is-rounded is-outlined has-tooltip-bottom" data-tooltip="Eintrag bearbeiten" value="{{ item[0] }}" onclick="activate4({{ item[0] }}, '{{ item[1] }}','{{ item[2] }}','{{ item[3] }}','{{ item[4] }}', {{ item[5] }}, {{ ns.list }});" data-target="question4">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+          </td>        
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <br><br>
+    <h4 style="color: black;">Admin Daten</h4>
+    <table id="data2" class="table is-bordered is-narrow is-hoverable is-fullwidth dataTable responsive" width="100%">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Kundenname</th>
+          <th>LoginID</th>
+          <th>Nachname</th>
+          <th>Name</th>
+          <th>Löschen</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in query2 %}
+        <tr>
+          <th>{{ loop.index }}</th>
+          <td>{{ item[1] }}</td>
+          <td>{{ item[2] }}</td>
+          <td>{{ item[3] }}</td>
+          <td>{{ item[4] }}</td>
+          <td>
+            <button name="ad-id" style="background-color: white;" class="js-modal-trigger button is-small is-rounded is-outlined has-tooltip-bottom" data-tooltip="Eintrag löschen" value="{{ item[0] }}" onclick="activate5({{item[0]}}, '{{item[2]}}');" data-target="question5">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+        </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <br><br>
+    <div id="question4" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title"><strong>Kunden editieren</strong></p>
+          <button class="delete" id="clicker" onclick="modalOff('question4');undoList('#checkbox-field2')" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <p class="is-size-8 justify-content-left" style="color: black; align-content: left;">
+            Hier kannst du deinen Kunden bearbeiten. Vorhandene Kundeninfos siehst du in den Feldern als Referenz. 
+          </p>
+          <form action="{{url_for('main.edit')}}" method="POST" class="box">
+            <div class="field">
+              <label for="" class="label is-medium">Kundenname {{ ns.items }}</label>
+              <div class="control has-icons-left" >
+                <input id="placeholder-kundenname" type="text" placeholder="z.B. Bosch" class="input" name="kundenname-edit" required>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="" class="label is-medium">Kunden Domain</label>
+              <div class="control has-icons-left">
+                <input id="placeholder-domain" type="text" placeholder="<kunde.de>" class="input" name="kundendomain-edit" required>
+                <span class="icon is-small is-left">
+                  <i class="fa-solid fa-cloud"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field">
+                <label for="" class="label is-medium">API Key</label>
+                <div class="control has-icons-left">
+                  <input id="placeholder-apikey" type="text" placeholder="++++++++" class="input" name="apikey-edit" required>
+                  <span class="icon is-small is-left">
+                    <i class="fa-solid fa-key"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col is-half">
+                  <div class="field">
+                    <label class="label is-medium">Users</label>
+                    <div class="select is-multiple" data-tooltip="Kunden-Zuordnung für Users anpassen">
+                      <select multiple size="6" name="user" width="100%">
+                        {%for name in assign%}              
+                          <option id="{{name}}" value="{{name}}" onclick="checkboxHandler('{{loop.index}}_{{name}}','{{name}}', 'checkbox-field2');setColor('{{name}}')">{{name}}</option>
+                        {%endfor%}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col is-half" style="text-align: left;">
+                  <div class="field">   
+                  <label class="label is-medium" data-tooltip="Selektierte items werden hier angezeigt.">Items</label>             
+                  <div style="overflow-y: scroll; height: 225px;" class="field">
+                    <ul id="checkbox-field2">
+
+
+                    </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+              <label for="" class="label is-medium" name="url">Cloud</label>
+              <div class="control has-icons-left">
+              <select id="option6" required="true" name="url-edit">
+                <option disabled selected value>--select an option--</option>
+                <option value="zsapi.zscalerbeta.net">zsapi.zscalerbeta.net</option>
+                <option value="zsapi.zscalerone.net">zsapi.zscalerone.net</option>
+                <option value="zsapi.zscalertwo.net">zsapi.zscalertwo.net</option>
+                <option value="zsapi.zscalerthree.net">zsapi.zscalerthree.net</option>
+                <option value="zsapi.zscaler.net">zsapi.zscaler.net</option>
+                <option value="zsapi.zscloud.net">zsapi.zscloud.net</option>
+              </select>
+            </div>
+            </div>
+            <br>
+              <div class="field">
+              <input id="edit-id" type="hidden" name="ku-id">
+              <input type="submit" class="button is-outlined" value="Kunden Informationen sichern">
+            </div>
+          </form>
+        </section>
+        <footer class="modal-card-foot">
+          <div class="col-lg-3 col-centered"><img src="/static/img/T_security_rgb_p.png"
+            alt="Telekom Sec" width="70%"></div>
+        </footer>
+      </div>
+    </div>
+
+    <div id="question5" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title"><strong>Admin löschen</strong></p>
+          <button class="delete" onclick="modalOff('question5')" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <p class="is-size-8 justify-content-left" style="color: black; align-content: left;">
+            Zum Löschen des Eintrags bitte auf den Button unten klicken.
+          </p>
+          <form action="{{url_for('main.loeschen')}}" method="POST" class="box">
+            <h3 id="email-loeschen" class="title is-4"></h3>
+            <div class="field">
+              <input id="ad-id" type="hidden" name="admin-id">
+              <input type="submit" class="button is-outlined" value="Admin Eintrag löschen?">
+            </div>
+          </form>
+        </section>
+        <footer class="modal-card-foot">
+          <div class="col-lg-3 col-centered"><img src="/static/img/T_security_rgb_p.png"
+            alt="Telekom Sec" width="70%"></div>
+        </footer>
+      </div>
+    </div>
+
+    <div id="add-customer" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title"><strong>Kunden hinzufügen</strong></p>
+          <button class="delete" onclick="modalOff('add-customer')" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <form action="{{url_for('main.commit_conf')}}" method="POST" class="box">
+            <div class="field">
+              <label for="" class="label is-medium">Kundenname</label>
+              <div class="control has-icons-left" >
+                <input type="text" placeholder="z.B. Bosch" class="input" name="ku" required>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="" class="label is-medium">Kunden Domain</label>
+              <div class="control has-icons-left">
+                <input type="text" placeholder="<kunde.de>" class="input" name="kd" required>
+                <span class="icon is-small is-left">
+                  <i class="fa-solid fa-cloud"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field">
+                <label for="" class="label is-medium">API Key</label>
+                <div class="control has-icons-left">
+                  <input type="text" placeholder="++++++++" class="input" name="ap" required>
+                  <span class="icon is-small is-left">
+                    <i class="fa-solid fa-key"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col is-half">
+                  <div class="field">
+                    <label class="label is-medium">Users</label>
+                    <div class="select is-multiple" data-tooltip="Wähle die Users aus, denen diesen Kunden zugeordnet werden soll">
+                      <select multiple size="6" name="user" width="100%">
+                        {%for name in assign%}               
+                          <option id="{{name}}" value="{{name}}" onclick="checkboxHandler('{{loop.index}}_{{name}}','{{name}}', 'checkbox-field');setColor('{{name}}')">{{name}}</option>
+                        {%endfor%}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col is-half" style="text-align: left;">   
+                  <label class="label is-medium" data-tooltip="Selektierte items werden hier angezeigt.">Items</label>             
+                  <div style="overflow-y: scroll; height: 225px;" class="field">
+                    <ul id="checkbox-field">
+ 
+                  </ul>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="field">
+              <label for="" class="label is-medium" name="ul">Cloud</label>
+              <div class="control has-icons-left">
+              <select id="option4" name="ul" required>
+                <option disabled selected value>-- select an option --</option>
+                <option value="zsapi.zscalerbeta.net">zsapi.zscalerbeta.net</option>
+                <option value="zsapi.zscalerone.net">zsapi.zscalerone.net</option>
+                <option value="zsapi.zscalertwo.net">zsapi.zscalertwo.net</option>
+                <option value="zsapi.zscalerthree.net">zsapi.zscalerthree.net</option>
+                <option value="zsapi.zscaler.net">zsapi.zscaler.net</option>
+                <option value="zsapi.zscloud.net">zsapi.zscloud.net</option>
+              </select>
+            </div>
+            </div>
+            <br>
+              <div class="field">
+              <input type="submit" class="button is-outlined" value="Kunden Informationen sichern">
+            </div>
+          </form>
+        </section>
+        <footer class="modal-card-foot">
+          <div class="col-lg-3 col-centered"><img src="/static/img/T_security_rgb_p.png"
+            alt="Telekom Sec" width="70%"></div>
+        </footer>
+      </div>
+    </div>
+
+    <div id="add-admin" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title"><strong>Admin hinzufügen</strong></p>
+          <button class="delete" onclick="modalOff('add-admin')" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <form action="{{url_for('main.adminconfig')}}" method="POST" class="box">
+            <div class="field">
+              <label for="" class="label is-medium">LoginID</label>
+              <div id="my-feedback" class="control has-icons-left" >
+                <input type="text" id="searchable" placeholder="z.B. max.mustermann@kunde-domain.de" class="input" name="ae" required>
+                <span class="icon is-small is-left">
+                  <i class="fa fa-envelope"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="" class="label is-medium">Name</label>
+              <div class="control has-icons-left">
+                <input type="text" placeholder="Max" class="input" name="an" required>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field">
+                <label for="" class="label is-medium">Nachname</label>
+                <div class="control has-icons-left">
+                  <input type="text" placeholder="Mustermann" class="input" name="ane" required>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="field">
+                <label for="" class="label is-medium">Passwort</label>
+                <div class="control has-icons-left">
+                  <input type="password" placeholder="***********" class="input" name="ap" required>
+                  <span class="icon is-small is-left">
+                    <i class="fa-solid fa-key"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="field">
+                <br>
+                <label for="" class="label is-medium" data-tooltip="Der Kunde wird automatisch ausgewählt :)" name="ku_op">Kunde</label>
+                <div class="control has-icons-left">
+                <select id="option5" name="ak" required>
+                  <option disabled value>-- Hier taucht der Kunde auf --</option>
+                </select>
+              </div>
+              </div>
+              <div class="field">
+              <button type="submit" id="admin-submit" class="button is-outlined has-tooltip-bottom" data-tooltip="Sorry, die Domain ist nicht registriert :(" disabled>Admin Informationen sichern</button>
+            </div>
+          </form>
+        </section>
+        <footer class="modal-card-foot">
+          <div class="col-lg-3 col-centered"><img src="/static/img/T_security_rgb_p.png"
+            alt="Telekom Sec" width="70%"></div>
+        </footer>
+      </div>
+    </div>
+
+</div>
+
+<!-- Assign Users Quickview -->
+<div id="assign-quickview" class="quickview" style="text-align: left;">
+  <header class="quickview-header is-light">
+    <p class="title">Assign Customers to Users</p>
+    <span class="delete" data-dismiss="quickview" onclick="quickview('assign-quickview')"></span>
+  </header>
+
+  <div class="quickview-body">
+      <div class="card">
+        <div class="card-content">
+            <div class="list has-visible-pointer-controls has-overflow-ellipsis" style="--length: 25">
+              {% for item in assign %}                
+              <div class="list-item">
+                <div class="list-item-image">
+                  <figure class="image is-64x64">
+                    <img class="is-rounded" src="https://via.placeholder.com/128x128.png?text=Image">
+                  </figure>
+                </div>           
+                <div class="list-item-content">
+                  <div class="list-item-title">{{item}}</div>
+                  <div class="list-item-description">
+                    <div>
+                      <ul>
+                        {% for name in assign[item] %}
+                        <ol>
+                          <li id="{{item}}" class="meinekunden is-size-7">{{name}}</li>
+                        </ol>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>            
+                <div class="list-item-controls">
+                  <div class="buttons is-right">
+                    <button class="button is-small" onclick="modalOn('assign-customer');userHandler('{{item}}', 'userinfo', {{alle_kunden}})">
+                      <span class="icon is-small">
+                        <i class="fas fa-edit"></i>
+                      </span>
+                      <span>Edit</span>
+                    </button>
+                  </div>
+                </div>
+              </div>              
+              {% endfor %}
+            </div>
+        </div>
+      </div>
+  </div>
+<footer class="quickview-footer">
+  <div class="col-lg-3 col-centered"><img src="/static/img/T_security_rgb_p.png" alt="Telekom Sec" width="70%"></div>
+</footer>
+</div>
+
+<div id="assign-customer" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title"><strong>Zuweisen</strong></p>
+      <button class="delete" onclick="modalOff('assign-customer');undoList('#used')" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <form action="{{url_for('main.assign')}}" method="POST" class="box">
+        <div class="field">
+          <label for="" class="label is-medium">User</label>
+          <p class="subtitle is-5" id="userinfo" style="color: black;"></p>
+          <div class="control has-icons-left" >
+          </div>
+        </div>
+        <div style="text-align: left;">
+            <label for="" class="label is-medium" name="selection">Kunden</label>
+            <div class="row">
+              <div class="column is-1">
+
+              </div>
+              <div class="column is-10" style="overflow-y: scroll; height: 300px;">
+                <div class="container">
+                  <ul>
+                    <ol id="used">
+    
+                    </ol>
+                  </ul> 
+                </div> 
+              </div>
+              <div class="column is-1">
+                
+              </div>
+            </div>                                   
+        </div>
+          <div class="field">
+          <input type="submit" class="button is-outlined" value="Assign!">
+        </div>
+      </form>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="col-lg-3 col-centered"><img src="/static/img/T_security_rgb_p.png"
+        alt="Telekom Sec" width="70%"></div>
+    </footer>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% set active_page = "feedback" %}
+
+{% block content %}
+<div class="container">
+  <div class="container">
+    {% with email = get_flashed_messages(category_filter=["email"]) %}
+    {%- for msg in email %}
+    <div class="notification is-success is-light">
+      {{ msg }}
+    </div>
+    {% endfor -%}
+    {% endwith %}
+  </div>
+  <br><br>
+  <div class="container">
+    <form action="/contact/send" method="POST" class="box">
+      <div class="field">
+        <label for="" class="label is-medium">Feedback</label>
+        <div class="control has-icons-left" id="feedback_div">
+            <textarea name="message" class="textarea" placeholder="e.g. Hello world"></textarea>
+        </div>
+      </div>
+    <div class="form-check d-flex justify-content-left mb-5">
+        <input class="form-check-input me-2" type="checkbox" name="bedingungen" required/>
+        <label class="form-check-label" for="form2Example3">
+          Hiermit akzeptiere ich alle <a style="color: #E20074;" href="#">Nutzungsbedingungen</a>
+        </label>
+    </div>
+    <div class="field">
+      <button type="submit" class="button is-outlined is-grey" id="register_btn">Send!</button>
+    </div>
+  </form>
+  </div>
+</div>
+{%endblock%}

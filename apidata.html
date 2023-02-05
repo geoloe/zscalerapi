@@ -1,0 +1,479 @@
+{% extends 'api.html' %}
+{% set active_page = "apidata" %}
+
+{% block title %}Zscaler Automation | API Site {% endblock %}
+{% block apidatacontent %}
+<div class="container is-justify-content-center" style="border-color: #4a4a4a;">
+  <div class="card" style="border-color:#4a4a4a;">
+    <header class="card-header" style="background-color: #4a4a4a; border-color: #4a4a4a;">
+      <p class="card-header-title">
+        Navigation<i class="fa-solid fa-filter-list"></i>
+      </p>
+      </header>
+    <div class="card-content">
+      <div class="content">
+        <div class="tabs is-boxed">
+          <ul>
+            <li name="tablinks" onclick="apiTab(event, 'requests')">
+              <a>
+                <span class="icon is-small"><i class="fa-solid fa-code"></i></span>
+                <span>HTTP REQUESTS</span>
+              </a>
+            </li>
+            <li name="tablinks" class=" is-active" onclick="apiTab(event, 'slcc-div')">
+              <a>
+                <span class="icon is-small"><i class="fa-solid fa-file-arrow-up"></i></span>
+                <span>SLCC</span>
+              </a>
+            </li>
+          </ul>
+        </div>      
+      </div>
+    </div>
+  </div>
+  <div id="requests" class="card tabcontent" style="visibility: hidden; display: none; background-color: whitesmoke;">
+
+    <div class="row">
+    <div class="container">
+    <div class="column">
+        <div id="httptabs" class="tabs is-centered">
+          <ul>
+            <li name="httplinks" onclick="httpTab(event, 'getcontent')" class="is-active"><a>GET</a></li>
+            <li name="httplinks" onclick="httpTab(event, 'postcontent')"><a>POST</a></li>
+          </ul>
+        </div>
+        <div id="getcontent" name="httptab" class="field">
+
+          <div class="list">
+            <div class="list-item box">
+              <div class="list-item-image">
+                <figure class="image is-64x64">
+                  <img class="is-rounded" src="static/img/user-solid.svg">
+                </figure>
+              </div>
+          
+              <div class="list-item-content">
+                <div class="list-item-title">Admin Management</div>
+                <div class="list-item-description">Rechts siehst du alle Optionen für das Management von Zscaler Admins</div>
+              </div>
+          
+              <div class="list-item-controls">
+                <div class="buttons is-right">
+                  <button class="button" style="border: white;">
+                    <div class="loader-wrapper">
+                      <div class="loader is-loading"></div>
+                    </div>
+                  </button>
+                  <button type="submit" class="button is-outlined is-dark" onclick="modalOn('csv')" data-tooltip="Download CSV!">
+                    <span>
+                      <i class="fa-solid fa-file-csv"></i>
+                    </span>
+                  </button>         
+                  <button class="button is-outlined is-dark" disabled>
+                    <span class="icon is-small">
+                      <i class="fas fa-ellipsis-h"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          
+            <div class="list-item box">
+              <div class="list-item-image">
+                <figure class="image is-64x64">
+                  <img class="is-rounded" src="static/img/link-solid.svg">
+                </figure>
+              </div>
+          
+              <div class="list-item-content">
+                <div class="list-item-title">URL Categories</div>
+                <div class="list-item-description">Rechts siehst du alle Optionen für das Management von Zscaler URL Categories</div>
+              </div>
+          
+              <div class="list-item-controls">
+                <div class="buttons is-right">
+                  <button type="submit" class="button is-outlined is-dark" onclick="modalOn('url')" name="url" data-tooltip="Download CSV!">
+                    <span class="icon is-small">
+                      <i class="fa-solid fa-file-csv"></i>
+                    </span>
+                  </button>         
+                  <button class="button is-outlined is-dark" disabled>
+                    <span class="icon is-small">
+                      <i class="fas fa-ellipsis-h"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          
+            <div class="list-item box">
+              <div class="list-item-image">
+                <figure class="image is-64x64">
+                  <img class="is-rounded" src="static/img/fire-solid.svg">
+                </figure>
+              </div>
+          
+              <div class="list-item-content">
+                <div class="list-item-title">Firewall Policy Rules</div>
+                <div class="list-item-description">Rechts siehst du alle Optionen für das Management von Zscaler Firewall Policies</div>
+              </div>
+          
+              <div class="list-item-controls">
+                <div class="buttons is-right">
+                  <button type="submit" class="button is-outlined is-dark" onclick="modalOn('fw')" data-tooltip="Download CSV!">
+                    <span>
+                      <i class="fa-solid fa-file-csv"></i>
+                    </span>
+                  </button>         
+                  <button class="button is-outlined is-dark" disabled>
+                    <span class="icon is-small">
+                      <i class="fas fa-ellipsis-h"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="postcontent" name="httptab" class="field" style="visibility: hidden; display: none;">
+
+          <div class="list">
+            <div class="list-item box">
+              <div class="list-item-image">
+                <figure class="image is-64x64">
+                  <img class="is-rounded" src="static/img/user-solid.svg">
+                </figure>
+              </div>
+          
+              <div class="list-item-content">
+                <div class="list-item-title">Admin Management</div>
+                <div class="list-item-description">Rechts siehst du alle Optionen für das Management von Zscaler Admins</div>
+              </div>
+          
+              <div class="list-item-controls">
+                <div class="buttons is-right">
+                  <button class="button" style="border: white;">
+                    <div class="loader-wrapper">
+                      <div class="loader is-loading"></div>
+                    </div>
+                  </button>
+                  <button type="submit" class="button is-outlined is-dark" onclick="modalOn('csv')" data-tooltip="Download CSV!">
+                    <span>
+                      <i class="fa-solid fa-file-csv"></i>
+                    </span>
+                  </button>         
+                  <button class="button is-outlined is-dark" disabled>
+                    <span class="icon is-small">
+                      <i class="fas fa-ellipsis-h"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          
+            <div class="list-item box">
+              <div class="list-item-image">
+                <figure class="image is-64x64">
+                  <img class="is-rounded" src="static/img/link-solid.svg">
+                </figure>
+              </div>
+          
+              <div class="list-item-content">
+                <div class="list-item-title">URL Categories</div>
+                <div class="list-item-description">Rechts siehst du alle Optionen für das Management von Zscaler URL Categories</div>
+              </div>
+          
+              <div class="list-item-controls">
+                <div class="buttons is-right">
+                  <button type="submit" class="button is-outlined is-dark" onclick="modalOn('url')" name="url" data-tooltip="Download CSV!">
+                    <span class="icon is-small">
+                      <i class="fa-solid fa-file-csv"></i>
+                    </span>
+                  </button>         
+                  <button class="button is-outlined is-dark" disabled>
+                    <span class="icon is-small">
+                      <i class="fas fa-ellipsis-h"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          
+            <div class="list-item box">
+              <div class="list-item-image">
+                <figure class="image is-64x64">
+                  <img class="is-rounded" src="static/img/fire-solid.svg">
+                </figure>
+              </div>
+          
+              <div class="list-item-content">
+                <div class="list-item-title">Firewall Policy Rules</div>
+                <div class="list-item-description">Rechts siehst du alle Optionen für das Management von Zscaler Firewall Policies</div>
+              </div>
+          
+              <div class="list-item-controls">
+                <div class="buttons is-right">
+                  <button type="submit" class="button is-outlined is-dark" onclick="modalOn('fw')" data-tooltip="Download CSV!">
+                    <span>
+                      <i class="fa-solid fa-file-csv"></i>
+                    </span>
+                  </button>         
+                  <button class="button is-outlined is-dark" disabled>
+                    <span class="icon is-small">
+                      <i class="fas fa-ellipsis-h"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="slcc-div" class="card tabcontent" style="visibility: visible; display: block;">
+  <div class="container">
+    <br>
+    <div class="container" style="background-color: #4a4a4a;">
+      <div class="row">
+        <div class="container">
+          <ul class="steps is-narrow is-medium is-centered has-content-centered is-primary">
+            {% if session['message'] == 'false' %}
+            <li class="steps-segment is-active">
+            {% endif %}
+            {% if session['message'] == 'true' %}
+            <li class="steps-segment">
+            {% endif %}
+              <a href="#" class="has-text-dark">
+                <span class="steps-marker is-primary">
+                  <span onclick="window.location.href='{{url_for('main.apidata')}}';" class="icon">
+                    <i class="fas fa-upload"></i>
+                  </span>
+                </span>
+                <div class="steps-content">
+                  <p class="heading">Upload File</p>
+                </div>
+              </a>
+            </li>
+            {% if session['message'] == 'true' %}
+            <li id="last-one" class="steps-segment is-active">
+            {% endif %}
+            {% if session['message'] == 'false' %}
+            <li class="steps-segment">
+            {% endif %}
+              <a hef="#" class="has-text-dark">
+                {% if session['message'] == 'true' %}
+                <span class="steps-marker is-primary">
+                {% endif %}
+                {% if session['message'] == 'false' %}
+                <span class="steps-marker is-white">
+                {% endif %}
+                  <span class="icon">
+                    <i class="fa fa-user"></i>
+                  </span>
+                </span>
+                <div class="steps-content">
+                  <p class="heading">Select Options</p>
+                </div>
+              </a>
+            </li>
+            <li id="last-segment" class="steps-segment has-gaps">
+              <span id="last-marker" class="steps-marker is-white">
+                <span class="icon">
+                  <i class="fa-solid fa-download"></i>
+                </span>
+              </span>
+              <div class="steps-content">
+                <p class="heading">Get Updated CIF</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div> 
+      {% if session['message'] == 'true' %}
+      <div class="row" style="visibility: hidden; display: none;">
+      {% endif %}  
+      {% if session['message'] == 'false' %} 
+      <div class="row" style="visibility: visible; display: block;">
+      {% endif %}   
+          <div class="container" style="align-content: center;">
+            <form id="uploadform" class="form-label" action="{{url_for('main.upload_file')}}" method="POST" enctype = "multipart/form-data">           
+              <div class="file has-name is-boxed is-centered">
+                <label class="file-label">
+                  <input id="file" class="file-input" type="file" name="file">
+                  <span class="file-cta">
+                    <span class="file-label">
+                      <img src="/static/img/excel-sheet-icon-7.png" width="50" height="50" alt="excel_datei">
+                    </span>
+                      <p style="color: black;"> Erlaubte Dateien: .xlsx <br> Max. Größe: 16 MB</p>
+                  </span>
+                  <span id="filename-selector" class="file-name" style="color: white;">
+                    No file selected...
+                  </span>
+                </label>
+              </div>            
+            <br>
+            <br>
+            <input type="submit" class="button is-outlined" value="Datei hochladen"><br><br>  
+          </form>      
+          </div>
+      </div>
+      {% if session['message'] == 'true' %}
+        {% block messagecontent %} {% endblock %} 
+      {% endif %}
+  </div>
+    <br><br><br><br><br> 
+  </div>
+</div>
+
+
+<div id="csv" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <button class="delete" onclick="modalOff('csv')" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <form action="{{url_for('main.admin_script')}}" method="POST" class="box" style="background-color: whitesmoke;">
+        <div class="container">
+          <div class="field">
+            <br>
+            <label for="" class="label is-medium" name="ad_op">Bitte Admin auswählen:</label>
+            <div class="control has-icons-left">
+            <select id="option7" name="admin" required>
+              {% for item in query2 %}
+              <option value="{{ item[0] }}">{{ item[2] }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          </div>
+          <div class="field">
+            <input type="hidden" name="cu" value="{{ kunde_id }}">
+          </div>
+        <div class="field">
+          <label for="" class="label is-medium">Passwort:</label>
+          <div class="control has-icons-left is-outlined" data-tooltip="Aus Sicherheitsgründen bitte Passwort für den Admin User eingeben">
+            <input type="password" placeholder="***********" class="input" name="ad_pass" required>
+            <span class="icon is-small is-left">
+              <i class="fa-solid fa-key"></i>
+            </span>
+            </div>
+        </div>
+        <button type="submit" class="button is-outlined is-dark" onclick="toggleLoad();" data-tooltip="Download CSV!" name="admin_csv" value="Admin">
+          <span>
+            <i class="fa-solid fa-file-csv"></i>
+          </span>
+        </button>
+        <p id='load' style='display: none; color: black'><i class="fa-solid fa-file-csv"></i> wird erstellt... Das kann ein bisschen dauern<br><i class="fa fa-spinner fa-spin"></i></p> 
+        </div>
+    </form>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="col-lg-3 col-centered"><img src="/static/img/T_security_rgb_p.png"
+        alt="Telekom Sec" width="70%"></div>
+    </footer>
+  </div>
+</div>
+
+
+<div id="url" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <button class="delete" onclick="modalOff('url')" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <form action="{{url_for('main.admin_script')}}" method="POST" class="box" style="background-color: whitesmoke;">
+        <div class="container">
+          <div class="field">
+            <br>
+            <label for="" class="label is-medium" name="ad_op">Bitte Admin auswählen:</label>
+            <div class="control has-icons-left">
+            <select id="option7" name="admin" required>
+              {% for item in query2 %}
+              <option value="{{ item[0] }}">{{ item[2] }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          </div>
+          <div class="field">
+            <input type="hidden" name="cu" value="{{ kunde_id }}">
+          </div>
+        <div class="field">
+          <label for="" class="label is-medium">Passwort:</label>
+          <div class="control has-icons-left is-outlined" data-tooltip="Aus Sicherheitsgründen bitte Passwort für den Admin User eingeben">
+            <input type="password" placeholder="***********" class="input" name="ad_pass" required>
+            <span class="icon is-small is-left">
+              <i class="fa-solid fa-key"></i>
+            </span>
+            </div>
+        </div>
+        <button type="submit" class="button is-outlined is-dark" onclick="toggleLoad();" data-tooltip="Download CSV!" name="url_csv" value="URL">
+          <span>
+            <i class="fa-solid fa-file-csv"></i>
+          </span>
+        </button>
+        <p id='load' style='display: none; color: black'><i class="fa-solid fa-file-csv"></i> wird erstellt... Das kann ein bisschen dauern<br><i class="fa fa-spinner fa-spin"></i></p> 
+        </div>
+    </form>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="col-lg-3 col-centered"><img src="/static/img/T_security_rgb_p.png"
+        alt="Telekom Sec" width="70%"></div>
+    </footer>
+  </div>
+</div>
+
+
+<div id="fw" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <button class="delete" onclick="modalOff('fw')" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <form action="{{url_for('main.admin_script')}}" method="POST" class="box" style="background-color: whitesmoke;">
+        <div class="container">
+          <div class="field">
+            <br>
+            <label for="" class="label is-medium" name="ad_op">Bitte Admin auswählen:</label>
+            <div class="control has-icons-left">
+            <select id="option7" name="admin" required>
+              {% for item in query2 %}
+              <option value="{{ item[0] }}">{{ item[2] }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          </div>
+          <div class="field">
+            <input type="hidden" name="cu" value="{{ kunde_id }}">
+          </div>
+        <div class="field">
+          <label for="" class="label is-medium">Passwort:</label>
+          <div class="control has-icons-left is-outlined" data-tooltip="Aus Sicherheitsgründen bitte Passwort für den Admin User eingeben">
+            <input type="password" placeholder="***********" class="input" name="ad_pass" required>
+            <span class="icon is-small is-left">
+              <i class="fa-solid fa-key"></i>
+            </span>
+            </div>
+        </div>
+        <button type="submit" class="button is-outlined is-dark" onclick="toggleLoad();" data-tooltip="Download CSV!" name="fw_csv">
+          <span>
+            <i class="fa-solid fa-file-csv"></i>
+          </span>
+        </button>
+        <p id='load' style='display: none; color: black'><i class="fa-solid fa-file-csv"></i> wird erstellt... Das kann ein bisschen dauern<br><i class="fa fa-spinner fa-spin"></i></p> 
+        </div>
+    </form>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="col-lg-3 col-centered"><img src="/static/img/T_security_rgb_p.png"
+        alt="Telekom Sec" width="70%"></div>
+    </footer>
+  </div>
+</div>
+</div>
+{% endblock %}

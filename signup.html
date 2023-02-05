@@ -1,0 +1,74 @@
+{% extends "base-login.html" %}
+
+{% block title %}Zscaler Automation | Signup Site {% endblock %}
+{% block content %}
+<div class="columns is-centered">
+    <div class="column is-two-fifths has-text-left">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+    <div class="notification is-danger">
+        {{ messages[0] }}. Gehe auf <a href="{{url_for('auth.login')}}">Login Seite</a>.
+    </div>
+    {% endif %}
+    {% endwith %}
+      <form action="/signup" method="POST" class="box">
+        <div class="field">
+          <label for="" class="label is-medium">Email</label>
+          <div class="control has-icons-left" >
+            <input type="email" placeholder="z.B. mustermann@telekom.de" class="input" name="email" required>
+            <span class="icon is-small is-left">
+              <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+            </span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="" class="label is-medium">Vorname</label>
+          <div class="control has-icons-left">
+            <input type="text" placeholder="z.B Max" class="input" name="surname" required>
+            <span class="icon is-small is-left">
+              <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+            </span>
+          </div>
+        </div>
+        <div class="field">
+            <label for="" class="label is-medium">Name</label>
+            <div class="control has-icons-left">
+              <input type="text" placeholder="z.B Mustermann" class="input" name="name" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+              </span>
+            </div>
+          </div>
+        <div class="field">
+            <label for="" class="label is-medium">Passwort</label>
+            <div class="control has-icons-left">
+              <input type="password" placeholder="*******" class="input" name="password" id="first" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+              </span>
+              <span id="password-security">
+              </span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="" class="label is-medium">Passwort wiederholen</label>
+            <div class="control has-icons-left" id="feedback_div">
+              <input type="password" placeholder="*******" class="input" name="password" id="verify_pass" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+              </span>
+            </div>
+          </div>
+        <div class="form-check d-flex justify-content-left mb-5">
+            <input class="form-check-input me-2" type="checkbox" name="bedingungen" required/>
+            <label class="form-check-label" for="form2Example3">
+              Hiermit akzeptiere ich alle <a href="#">Nutzungsbedingungen</a>
+            </label>
+        </div>
+        <div class="field">
+          <button type="submit" class="button is-outlined is-grey" id="register_btn" disabled>Registrieren</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

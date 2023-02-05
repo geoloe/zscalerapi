@@ -1,0 +1,14 @@
+{% extends "base-login.html" %}
+
+{% block title %}Zscaler Automation | Welcome Site {% endblock %}
+{% block content %}
+<h1 class="title" style="color: white;">
+  Willkommen, {{ surname }} {{ name }}!
+</h1>
+  <form action="/" method="GET">
+  <div class="field">
+    <input type="submit" class="button is-outlined is-grey" value="Zur Hauptseite gehen!">
+  </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% set active_page = "slcc" %}
+
+{% block content %}
+{% block title %}Zscaler Automation | CIF Site {% endblock %}
+<div class="is-divider is-grey" data-content="Upload CIF File"></div>
+<div class="container">
+    <br>
+    <div class="container" style="background-color: #242426;">
+      <br>
+      <br>
+      <form class="form-label" action="{{url_for('main.upload_file')}}" method="POST" enctype = "multipart/form-data">
+        <div class="container">
+          <div class="col">
+            <input class="form-control" type = "file" name = "file" />
+          </div>
+          <br>
+          <img src="/static/img/excel-sheet-icon-7.png" width="50" height="50" alt="excel_datei"><h6 style="color: white;"> Erlaubte Dateien: .xlsx <br> Max. Größe: 16 MB</h6>
+          <br>
+          <input type="submit" class="button is-outlined" value="Datei hochladen"><br><br>
+        </div>
+      </form>
+    </div>
+    <br><br><br><br><br> 
+  </div> 
+{% endblock %}

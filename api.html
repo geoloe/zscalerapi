@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% set active_page = "api" %}
+
+{% block title %}Zscaler Automation | API Site {% endblock %}
+{% block content %}
+<div class="is-divider is-grey" data-content="API Datenverarbeitung"></div>
+<div class="container">
+  <div class="row">
+  <div class="column is-one-third">
+  </div>
+  <div class="column is-one-third">
+    {% with updates = get_flashed_messages(category_filter=["update"]) %}
+    {% if updates %}
+    {%- for msg in updates %}
+    <div class="notification is-success is-light">
+      {{ msg }}
+      </div> 
+    {% endfor %}
+    {% else %}   
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="notification is-danger is-light">
+    {{ messages[0] }}
+    </div>
+    {% endif %}
+    {% endwith %}
+    {% endif %}  
+    {% endwith %}
+    <form action="{{url_for('main.apidata')}}" method="POST" class="box" style="background-color: #4a4a4a;">
+      <div class="field">
+        <label for="" class="label is-medium" style="color: white;" name="ku_op">Bitte Kunde auswählen:</label>
+        <div class="control has-icons-left">
+        <select id="option3" name="admin_kunde" onchange="this.form.submit()" required>
+          <option disabled selected value> -- select an option -- </option>
+          {% if query3 is defined and query3|length > 0%}
+          {% for item in query3 %}
+          <option value="{{ item[0] }}">{{ item[1] }}</option>
+          {% if kunde_id == item[0]%}
+          <option value="{{ item[0] }}" selected>{{ item[1] }}</option>
+          {% endif %}
+          {% endfor %}
+          {% else %}
+          {% for item in query %}
+          <option value="{{ item[0] }}">{{ item[1] }}</option>
+          {% if kunde_id == item[0]%}
+          <option value="{{ item[0] }}" selected>{{ item[1] }}</option>
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+        </select>
+      </div>
+      </div>
+    </form>
+  </div>
+  <div class="column is-one-third">
+
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    {% block apidatacontent %}
+    {% endblock %}
+  </div>
+</div>
+</div>
+{% endblock %}

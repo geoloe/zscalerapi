@@ -1,0 +1,54 @@
+{% extends "base-login.html" %}
+
+{% block content %}
+<div class="columns is-centered">
+    <div class="column is-two-fifths">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="notification is-danger">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+      <form action="/login" method="post" class="box">
+      <h2>Login</h2><br><br>
+        <div class="field">
+          <label for="" class="label is-medium">Email</label>
+          <div class="control has-icons-left">
+            <input type="email" placeholder="z.B. musterman@telekom.de" class="input" name="email" value="{{ user }}" required>
+            <span class="icon is-small is-left">
+              <i class="fa fa-envelope"></i>
+            </span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="" class="label is-medium">Passwort</label>
+          <div class="control has-icons-left">
+            <input type="password" placeholder="*******" class="input" name="password" required>
+            <span class="icon is-small is-left">
+              <i class="fa fa-lock"></i>
+            </span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="" class="checkbox">
+            <input type="checkbox" name="remember">
+           Remember me
+          </label>
+        </div>
+        <div class="row">
+          <div class="column">
+            <div class="field">
+              <button type="button" class="button is-outlined is-grey" disabled>Passwort vergessen?</button>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <button type="submit" class="button is-outlined is-grey" >Login</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

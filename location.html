@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% set active_page = "location" %}
+
+{% block title %}Zscaler Automation | Location Site {% endblock %}
+{% block content %}
+<div class="is-divider is-grey" data-content="Locations"></div>
+<div class="container">
+  <div class="row">
+  <div class="column has-text-left">
+    <form action="/" method="POST" class="box">
+      <div class="field">
+        <label for="" class="label is-medium">Name</label>
+        <div class="control has-icons-left" >
+          <input type="text" placeholder="z.B. bonn-0123" class="input" name="kundenname" required>
+          <span class="icon is-small is-left">
+            <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+          </span>
+        </div>
+      </div>
+      <div class="select is-multiple">
+        <label for="" class="label is-medium" name="country">Land</label>
+        <div class="control has-icons-left">
+        <select id="option1" class="selectoption" name="country_op" multiple size="4" required>
+          <option disabled selected value> -- select an option -- </option>
+          {% for item in cn %}
+          <option value="{{ item }}">{{ item }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      </div>
+        <div class="select is-multiple">
+          <label for="" class="label is-medium" name="timezone">Zeitzone</label>
+          <div class="control has-icons-left">
+          <select id="option2" class="selectoption" name="zeitzone_op" multiple size="4" required>
+            <option disabled selected value> -- select an option -- </option>
+            {% for item in timezone %}
+            <option value="{{ item }}">{{ item }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        </div>
+        <div class="field">
+          <br>
+          <label for="" class="label is-medium" name="ku_op">Kunde</label>
+          <div class="control has-icons-left">
+          <select id="option" name="kunde_option" required>
+            <option disabled selected value> -- select an option -- </option>
+            {% for item in info %}
+            <option value="{{ item[1] }}">{{ item[1] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        </div>
+        <br>
+        <div class="form-check d-flex justify-content-left ">
+          <input class="form-check-input me-2" type="checkbox" name="ofw" required/>
+          <label class="form-check-label" for="form2Example3">
+            ofwEnabled
+          </label>
+      </div>
+      <div class="form-check d-flex justify-content-left ">
+        <input class="form-check-input me-2" type="checkbox" name="ips" required/>
+        <label class="form-check-label" for="form2Example3">
+          ipsControl
+        </label>
+      </div>
+      <div class="form-check d-flex justify-content-left ">
+        <input class="form-check-input me-2" type="checkbox" name="auth" required/>
+        <label class="form-check-label" for="form2Example3">
+          authRequired
+        </label>
+      </div>
+      <div class="form-check d-flex justify-content-left ">
+        <input class="form-check-input me-2" type="checkbox" name="xff" required/>
+        <label class="form-check-label" for="form2Example3">
+          xffForwardEnabled
+        </label>
+      </div>
+      <div class="field">
+      <br>
+        <input type="submit" class="button is-outlined" value="Location Optionen sichern" disabled>
+      </div>
+    </form>
+  </div>
+</div>
+<div>
+</div>
+</div>
+<br><br>
+<h2 style="color: white;">Karte</h2>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="mapouter" style="text-align: center;"><div class="gmap_canvas"><iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=Maybachstra%C3%9Fe%2057,%2070469%20Stuttgart&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><br><style>.mapouter{position:relative;text-align:right;height:500px;width:600px;}</style><a href="https://www.embedgooglemap.net">embedgooglemap.net</a><style>.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:600px;}</style></div></div>
+    </div>
+</div>
+{% endblock %}

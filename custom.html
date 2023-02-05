@@ -1,0 +1,95 @@
+{% extends 'config.html' %}
+{% set active_page = "custom" %}
+
+{% block customcontent %}
+<h4 style="color: white; text-align: center;">Prüfe deine Eingabe</h4>
+<div class="column has-text-center" style="text-align: center;">
+  <button class="js-modal-trigger button is-small is-rounded is-outlined" onclick="modalOn('question2')" data-target="modal-js-example">
+    <i class="fa-solid fa-question"></i>
+  </button>
+<div id="question2" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title"><strong>Hilfe</strong></p>
+      <button class="delete" onclick="modalOff('question2')" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <p class="is-size-8 justify-content-left" style="color: black; align-content: left;">
+        Hier kannst du deine Eingabe prüfen.
+      </p>
+      <nav class="level is-flex-direction-column is-justify-content-flex-end">
+        <div class="container">
+        <div class="level-item has-text-left">
+          <div class="container">
+            <p class="heading is-size-6" style="color: black;"><strong>Verwerfen</strong></p>
+            <p class="justify-content-left" style="color: black; align-content: left;">Lösche deine Eingabe</p>
+          </div>
+        </div>
+        <div class="level-item has-text-left">
+          <div class="container">
+            <p class="heading is-size-6" style="color: black;"><strong>In Datenbank abspeichern</strong></p>
+            <p class="justify-content-left" style="color: black; align-content: left;">Sichere Deine Daten in der internen Datenbank.</p>
+          </div>
+        </div>
+        </div>
+      </nav>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="col-lg-3 col-centered"><img src="/static/img/T_security_rgb_p.png"
+        alt="Telekom Sec" width="70%"></div>
+    </footer>
+  </div>
+</div>
+</div>
+<div class="container">
+  <div class="card">
+    <div class="card-content">
+      <div class="content">
+        <h4 style="color: black;">Deine Eingabe:</h4>
+        <br><br>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <td>Kundenname</td>
+              <td>API Key</td>
+              <td>Kunden Domain</td>
+              <td>Cloud</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th> 1 </th>
+              <td style="color: black;">{{ kundenname }}</td>
+              <td style="color: black;">{{ apikey }}</td>
+              <td style="color: black;">{{ kundendomain }}</td>
+              <td style="color: black;">{{ url }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <br><br>
+        <div class="row">
+          <div class="col">
+            <form action="{{url_for('main.config')}}" method="POST">
+              <input type="submit" class="button is-outlined" value="Verwerfen">
+            </form>
+          </div>
+          <div class="col">
+            <form action="{{url_for('main.commit_conf')}}" method="POST">
+              <input type="hidden" name="ku" value="{{ kundenname }}">
+              <input type="hidden" name="us" value="{{ user }}">
+              <input type="hidden" name="ap" value="{{ apikey }}">
+              <input type="hidden" name="kd" value="{{ kundendomain }}">
+              <input type="hidden" name="ul" value="{{ url }}">
+              <input type="hidden" name="ac" value="{{ check }}">
+              <input type="submit" class="button is-outlined" value="In Datenbank abspeichern">
+            </form>
+          </div>
+        </div>
+            </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

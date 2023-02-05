@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% set active_page = "config" %}
+
+{% block title %}Zscaler Automation | Configuration Site {% endblock %}
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<br><br>
+<div class="notification is-info is-light">
+{{ messages[0] }}
+</div>
+{% endif %}
+{% endwith %}
+{% block confcommit %}
+{% endblock %}
+
+<div class="is-divider is-grey" data-content="Config Viewer"></div>
+<button class="js-modal-trigger button is-small is-rounded is-outlined" onclick="modalOn('question')" data-tooltip="Hilfe">
+  <i class="fa-solid fa-question"></i>
+</button>
+<div class="container">
+    <div class="row justify-content-center">
+      <div class="row">
+        <div class="column">
+          <br>
+        <section class="accordions">
+          {% if is_admin == true %}
+          <article id="accordion-assign" class="accordion">
+            <div class="accordion-header" style="background-color: #4a4a4a;">
+              <h5 class="title is-5" style="color: white;">Users Kunden zuweisen</h5>
+              <button class="toggle" aria-label="toggle" onclick="accordion('accordion-assign')"></button>
+            </div>
+            <div class="accordion-body" style="background-color: #eaeaea; border-color: #4a4a4a;">
+              <div class="accordion-content">
+                <button class="button is-outlined has-tooltip-right" onclick="quickview('assign-quickview')" data-tooltip="Kunden Übersicht"><i class="fa-solid fa-people-group"></i></button>
+              </div>
+            </div>
+          </article>
+          {% endif %}
+          <article id="accordion-config" class="accordion is-active">
+            <div class="accordion-header" style="background-color: #4a4a4a;">
+              <h5 class="title is-5" style="color: white;">Kunden und Admins hinzufügen</h5>
+              <button class="toggle" aria-label="toggle" onclick="accordion('accordion-config')"></button>
+            </div>
+            <div class="accordion-body" style="background-color: #eaeaea; border-color: #4a4a4a;">
+              <div class="accordion-content">
+                {% block datacontent %}
+                {% endblock %}
+              </div>
+            </div>
+          </article>
+        </section>
+      </div>
+      </div>
+    </div>
+</div>   
+
+<div id="question" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title"><strong>Hilfe</strong></p>
+      <button class="delete" onclick="modalOff('question')" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <p class="is-size-8 justify-content-left" style="color: black; align-content: left;">
+        Hier trägst Du deine Kundeninformationen ein. Diese werden für die API Abfrage verwendet.
+        Bitte beachte, dass jedes Feld ein Maximum von 100 Zeichen erlaubt.
+      </p>
+      <nav class="level is-flex-direction-column is-justify-content-flex-end">
+        <div class="container">
+        <div class="level-item has-text-left">
+          <div class="container">
+            <p class="heading is-size-6" style="color: black;"><strong>Kundenname</strong></p>
+            <p class="justify-content-left" style="color: black; align-content: left;">Der Kundenname ist für Dich als Referenz. Hierzu gibt es keine Vorgaben.</p>
+          </div>
+        </div>
+        <div class="level-item has-text-left">
+          <div class="container">
+            <p class="heading is-size-6" style="color: black;"><strong>Domain</strong></p>
+            <p class="justify-content-left" style="color: black; align-content: left;">Die Domain entnimmst du dem Admin Portal User, der dir zugeordnet wurde.</p>
+          </div>
+        </div>
+        <div class="level-item has-text-left">
+          <div class="container">
+            <p class="heading is-size-6" style="color: black;"><strong>API Key</strong></p>
+            <p class="justify-content-left" style="color: black; align-content: left;">Diesen findest du unter:
+              <br><nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+              <ul>
+                <li class="is-size-7">Administration</li>
+                <li class="is-size-7">Cloud Service API Key Management</li>
+                <li class="is-size-7">Cloud Service API Key</li>
+                <li class="is-size-7">Key</li>
+              </ul>
+            </nav>
+          </p>
+          </div>
+        </div>
+        <div class="level-item has-text-left">
+          <div class="container">
+            <p class="heading is-size-6" style="color: black;"><strong>Cloud</strong></p>
+            <p class="justify-content-left" style="color: black; align-content: left;">Die findest du ebenfalls unter:
+              <br><nav class="breadcrumb" aria-label="breadcrumbs">
+              <ul>
+                <li class="is-size-7">Administration</li>
+                <li class="is-size-7">Cloud Service API Key Management</li>
+                <li class="is-size-7">Cloud Service API Key</li>
+                <li class="is-size-7">"The base URL for your API is zsapi.<Cloud>/api/v1"</li>
+              </ul>
+            </nav>
+          </p>
+          </div>
+        </div>
+        </div>
+      </nav>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="col-lg-3 col-centered"><img src="/static/img/T_security_rgb_p.png"
+        alt="Telekom Sec" width="70%"></div>
+    </footer>
+  </div>
+</div>
+
+{% endblock %}

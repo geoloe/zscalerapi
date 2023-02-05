@@ -1,0 +1,67 @@
+{% extends 'apidata.html' %}
+{% set active_page = "slcc" %}
+
+{% block messagecontent %}
+{% if success %}
+    <div class="notification is-success is-light"> 
+      {{ success }}
+    <br>
+    <p id='mes' style='display: none; color: black'>File wird heruntergeladen... <i class="fa fa-spinner fa-spin"></i>
+    </p> 
+    </div>
+  {% endif %}  
+  <div class="row" style="text-align:center;">
+    <div class="column is-one-third">
+
+    </div>
+    <div class="column is-one-third">
+      <div class="container">
+        <div class="card" style="border-color:#4a4a4a;">
+        <form id="scriptform" action="{{url_for('main.script_ausfuehren')}}">
+          <div class="field">
+            <br>
+            <label for="" class="label is-medium" name="ad_op">Bitte Admin auswählen:</label>
+            <div class="control has-icons-left">
+            <select id="option7" name="option7" required>
+              {% for item in query2 %}
+              <option value="{{ item[2] }}">{{ item[2] }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          </div>
+          <div class="field">         
+            <label for="" class="label is-medium">Passwort:</label>
+            <div class="control has-icons-left is-outlined"> 
+              <div class="column is-one-fifth"></div>
+              <div class="column">
+                <input type="password" placeholder="***********" class="input" id="pwd.ad_pass_2" name="pwd.ad_pass_2" data-tooltip="Aus Sicherheitsgründen bitte Passwort für den Admin User eingeben" required>
+              </div> 
+              <div class="column is-one-fifth"></div>        
+            </div>
+          </div>
+          <div class="container">
+            <label for="" class="label is-medium" name="option_connect">Bitte Option auswählen:</label>
+            <select id="option" name="option">
+              <option value="slcc">SLCC - Locations</option>
+              <option value="branch">SLCC - Sublocations</option>
+            </select>
+          </div>
+          <br><br>
+          <div class="container">
+            <input type="submit" class="button is-outlined is-small" onclick="steps('last-marker','last-segment'); toggleLoad();" value="Daten aktualisieren und neues File erstellen" name="file"/>
+          </div>
+        </form> 
+        <div class="row"></div>
+        <form action="{{url_for('main.apidata')}}">
+          <input type="submit" class="button is-outlined is-small" value="Zurück" />
+        </form>  
+        <br>
+    </div>
+    </div>
+    </div>
+    <div class="column is-one-third">
+      
+    </div>
+
+  </div>
+{% endblock %}

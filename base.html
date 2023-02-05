@@ -1,0 +1,335 @@
+    <!-- Define global Vars for pages-->
+{% set navigation_bar = [
+  ('/', 'index', 'Home'),
+  ('/api', 'api', 'API'),
+  ('/config', 'config', 'Config'),
+  ('/location', 'location', 'Location'),
+  ('/slcc', 'slcc', 'SLCC'),
+  ('/feedback', 'feedback', 'Feedback')
+] -%}
+{% set active_page = active_page|default('#') -%}
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">  
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/bulmastyles.css">
+    <link rel="stylesheet" href="/static/css/nav.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="shortcut icon" href="#">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tagsinput@1.0.3/dist/css/bulma-tagsinput.min.css" integrity="sha256-Oj0n5+lE3U6z0TMiGf1q97uu8JPs6ngLaRKyP7bIFcw=" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bulma-tooltip@3.0.2/dist/css/bulma-tooltip.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/combine/npm/intro.js@6.0.0/introjs.min.css,npm/intro.js@6.0.0/introjs-rtl.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/intro.js@6.0.0/introjs.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bm/jszip-2.5.0/dt-1.12.1/b-2.2.3/b-colvis-2.2.3/b-html5-2.2.3/b-print-2.2.3/date-1.1.2/kt-2.7.0/r-2.3.0/rg-1.2.0/sb-1.3.4/sp-2.0.2/datatables.min.css"/>
+    <script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+
+  </head>
+  <body style="background-color: #242426;">
+    <div id="pageloader" class="pageloader is-info is-bottom-to-top"><span class="title">Sie werden sicher ausgeloggt</span></div>
+        <section class="main-content columns is-fullheight">
+           <!--Main Side Nav-->  
+          <aside class="column is-2 is-narrow-mobile is-fullheight section is-hidden-mobile" style="background-color: #E20074;">
+            <div class="container" id="logo-img">
+              <a class="navbar-brand left" href="{{ url_for('main.index')}}"><img src="/static/img/T_logo_rgb_n.png" width="40" height="40"></a>
+            </div>
+            <header>
+              <section class="hero is-small">
+                <div class="hero-body" id="title1">
+                  <p class="title" style="color: white;">
+                    Übersicht
+                  </p>
+                </div>
+              </section>
+            </header>
+            <p style="color:white" class="menu-label is-hidden-touch">Zscaler Funktionalitäten</p>
+            <ul id="menu-nav" class="menu-list">
+              {% for href, id, caption in navigation_bar %}
+              {% if loop.index == 1 %}          
+              <li id="home" class="is-danger">
+                <a href="{{ url_for('main.index') }}" id="{{ id }}"{% if id == active_page %}  class="is-active is-info"{% endif
+                  %}>
+                  <span class="icon"><i class="fa fa-home"></i></span> <strong>Home</strong>
+                </a>
+              </li>
+              {% endif %}
+              {% endfor %}
+              {% for href, id, caption in navigation_bar %}
+              {% if loop.index == 2 %}
+              <li id="api">
+                <a href="{{ url_for('main.api') }}"  {% if id == active_page %}class="is-active"{% endif
+                  %} id="{{ id }}">
+                  <span class="icon"><i class="fa fa-code"></i></span> <strong>API</strong>
+                </a>
+<!-- SLCC disabled!<ul>
+   {% for href, id, caption in navigation_bar %}
+                  {% if loop.index == 5 %}
+                  <li>
+                    <a href="{{ url_for('main.slcc') }}" id="{{ id }}" {% if id == active_page %}class="is-active"{% endif
+                      %}>
+                      <span class="icon is-small"><i class="fa fa-link"></i></span> SLCC
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% endfor %}
+                  <li>
+                    <a href="#"  id="delete">
+                      <span class="icon is-small"><i class="fa fa-link"></i></span> Delete Duplicate
+                    </a>
+                  </li>  
+                </ul> disabled-->
+              </li>
+              {% endif %}
+              {% endfor %}
+              {% for href, id, caption in navigation_bar %}
+              {% if loop.index == 3 %}
+              <li id="config">
+                <a href="{{ url_for('main.data') }}" {% if id == active_page %}class="is-active"{% endif
+                  %} id="{{ id }}" onclick="window.location.reload();">
+                  <span class="icon"><i class="fa-solid fa-user-pen"></i></span> <strong>Config</strong>
+                </a>
+                <ul>
+                  {% for href, id, caption in navigation_bar %}
+                  {% if loop.index == 4 %}
+                  <li>
+                    <a href="{{ url_for('main.location') }}" id="{{ id }}" {% if id == active_page %}class="is-active"{% endif
+                      %}>
+                      <span class="icon is-small"><i class="fa-solid fa-location-dot"></i></span> Location
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% endfor %}
+                </ul>
+              </li>
+              {% endif %}
+              {% endfor %}
+              <li>
+                <a href="#" id="about">
+                  <span class="icon"><i class="fa fa-info"></i></span> About
+                </a>
+              </li>
+              <li>            
+                <a target="_blank" href="https://www.zscaler.com/" id="zscaler">
+                <img src="/static/img/logo.svg" style="color: white" width="100" height="100">
+                </a>
+              </li>
+            </ul>
+            <p style="color:white" class="menu-label is-hidden-touch">Extras</p>
+            <ul class="menu-list">
+              {% for href, id, caption in navigation_bar %}
+              {% if loop.index == 6 %}
+              <li>
+                <a href="{{ url_for('extras.contact') }}" id="{{ id }}" {% if id == active_page %}class="is-active"{% endif
+                  %}>
+                  <span class="icon is-small"><i class="fa-solid fa-comment"></i></span> Feedback
+                </a>
+              </li>
+              {% endif %}
+              {% endfor %}
+          </ul>
+          </aside>
+      <div class="column">
+         <!--Top Nav-->
+        <nav class="navbar">  
+          <div id="navbarExampleTransparentExample" class="navbar-menu">
+          <div class="navbar-start">
+            <form action="#">
+            <div class="field has-addons">
+              <div class="control">
+                <input class="input is-small is-rounded" id="searchbar" type="text" name="search" onkeyup="searchfunc()" placeholder="Navigation filtern..." size="50">
+              </div>
+            </div>
+          </form>
+          <div class="container">
+            <button type="button" class="navbar-item button is-small is-outlined is-grey has-tooltip-bottom" onclick="triggerTutorial()" data-tooltip="Einführung!" >Take a Tour</button>  
+          </div>
+          </div>
+            <div class="navbar-end dropdown-trigger">
+              <div class="dropdown show is-right">
+                {% with activity = get_flashed_messages(category_filter=["activity"]) %}
+                {% if activity %}
+                {%- for msg in activity %}
+                <button class="dropdown-toggle button is-dark is-outlined is-hoverable has-tooltip-left" data-tooltip="{{ msg }}" href="#" role="button" id="user-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="badge is-bottom-left"><i class="fa-regular fa-bell fa-spin-hover"></i></span>
+                  <a href="#" role="button" id="user-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Willkommen, {{ surname }} {{ name }}!
+                  </a> 
+                </button>
+                {% endfor -%}
+                {% else %}
+                <button class="dropdown-toggle button is-dark is-outlined is-hoverable" href="#" role="button" id="user-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <a href="#" role="button" id="user-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Willkommen, {{ surname }} {{ name }}!
+                  </a> 
+                </button> 
+                {% endif %}
+                {% endwith %}
+                <div class="dropdown-menu dropdown-menu-right is-left" aria-labelledby="dropdownMenuLink">
+                  {% if current_user.is_authenticated %}
+                  <a class="dropdown-item" href="{{ url_for('main.profile') }}"><p style="color: #242426;"><i class="fa-solid fa-address-card"></i> Profil</p></a>
+                    <hr class="dropdown-divider">
+                    {% endif %}
+                    {% if not current_user.is_authenticated %}
+                    <a class="dropdown-item" href="{{ url_for('auth.login') }}">Login</a>
+                    <a class="dropdown-item" href="{{ url_for('auth.signup') }}">Registrieren</a>
+                    {% endif %}
+                    {% if current_user.is_authenticated %}
+                    <a class="dropdown-item" onclick="pageloader('pageloader')" href="{{ url_for('auth.logout') }}" ><p style="color:#242426"><i class="fa fa-sign-out"></i> Logout</p></a>
+                    {% endif %}
+                </div>
+              </div>   
+              </div>
+        </nav>
+        <!--Cookie Tab-->  
+        <div class="cookie-overlay" id="cookie">
+
+          <span>Diese Seite verwendet Cookies <a href="#"  id="link-cookie" class="ml-1 text-decoration-none"><br>Nutzungsbedingungen</a> </span>
+          <div class="mt-2 d-flex align-items-center justify-content-center g-2">
+            <button id="allow-cookie" class="allow-button mr-1 accept-cookies">Erlauben</button>
+            <button class="allow-button close-cookies">Verweigern</button>
+          </div>
+        
+          
+        </div> 
+        <div class="row">
+           <!-- News Nav s-->
+            <div class="column" id="main-col">      
+              <div class="container">
+                {% block content %} {% endblock %}
+              </div>
+            </div>           
+          </div>
+          <div class="row">
+            <div class="col">    
+            <footer class="footer border-top">
+                <div class="row bottom-rule">
+                  <div class="col-lg-3">
+                    <p>Deutsche Telekom AG ©</p>
+                  </div>
+                </div>
+                <div class="row pt-2">
+                  <div class="col-4 col-md">
+                    <h5 style="color: white;">Support</h5>
+                    <ul class="list-unstyled text-small">
+                      <li><a class="text-muted"><i class="fa-solid fa-at"></i> Georg Löffler</a></li>
+                      <li><a class="text-muted"><i class="fa-solid fa-envelope"></i> georg.loeffler@telekom.de</a>
+                      </li>
+                      <li><a class="text-muted"><i class="fa-solid fa-square-phone"></i> +49 711 999-8824</a>
+                      </li>
+                      <br>
+                      <li><a class="text-muted"><i class="fa-solid fa-at"></i> Andreas Bowkunnyj</a></li>
+                      <li><a class="text-muted"><i class="fa-solid fa-envelope"></i> andreas.bowkunnyj@telekom.de</a>
+                      </li>
+                      <li><a class="text-muted"><i class="fa-solid fa-square-phone"></i> +49 251 39771002</a>
+                      </li>
+                    </ul>
+                  </div>
+          
+                  <div class="col-4 col-md"></div>
+                </div>
+                <div class="row pt-2">
+                  <div class="col-lg-3 col-centered"><img src="/static/img/T_security_rgb_p.png"
+                      alt="Telekom Sec" width="70%"></div>
+                </div>
+            </footer>
+          </div>      
+        </div>        
+      </div>
+      <!-- Optional Quickview -->
+      <div id="index-quickview" class="quickview">
+        <header class="quickview-header">
+          <p class="title">Extra Infos</p>
+          <span class="delete" data-dismiss="quickview" onclick="quickview('index-quickview')"></span>
+        </header>
+      
+        <div class="quickview-body">
+            <div class="card">
+              <div class="card-content">
+                <p class="title">
+                  “My Personal Mission, Zero Attack Surface”
+                </p>
+                <p class="subtitle">
+                  Jay Chaudhry - CEO and founder of Zscaler
+                </p>
+              </div>
+              <footer class="card-footer">
+                <p class="card-footer-item">
+                  <span style="color: black;">
+                    View on <a href="https://twitter.com/codinghorror/status/506010907021828096">Twitter</a>
+                  </span>
+                </p>
+                <p class="card-footer-item">
+                  <span style="color: black;">
+                    Share on <a href="#">Facebook</a>
+                  </span>
+                </p>
+              </footer>
+            </div>
+        </div>
+      
+        <footer class="quickview-footer">
+      
+        </footer>
+      </div> 
+              
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>  
+    <script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bulma.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bulma.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tagsinput@1.0.3/dist/js/bulma-tagsinput.min.js" integrity="sha256-pYgopZUHcvZmb/GMRVqIhKV6Cu5/ZYuYz69b/fhAVHw=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bm/jszip-3.1.3/dt-1.12.1/b-2.2.3/b-colvis-2.2.3/b-html5-2.2.3/b-print-2.2.3/date-1.1.2/kt-2.7.0/r-2.3.0/rg-1.2.0/sb-1.3.4/sp-2.0.2/datatables.min.js"></script>
+    <script type="text/javascript" src="/static/js/script.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bulma-tagsinput@2.0.0/dist/js/bulma-tagsinput.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/intro.js@6.0.0/intro.min.js"></script>
+    <script>
+    introJs().start();          
+      function triggerTutorial(){
+        introJs().setOptions({
+      steps: [{
+        intro: 'Hier findest du die Übersicht aller Navigationsreiter',
+        element: document.querySelector('#title1'),
+        title: 'Willkommen'  
+      },
+      {
+        title: 'Home',
+        element: document.querySelector('#home'),
+        intro: 'Home Seite'
+      },
+      {
+        title: 'API Anfragen',
+        element: document.querySelector('#api'),
+        intro: 'Hier kannst du deine Anfragen definieren'
+      },
+      {
+        title: 'Konfiguration',
+        element: document.querySelector('#config'),
+        intro: 'Hier trägst du Kundeninformationen ein, die für die API Anfragen nötig sind'
+      }]
+    }).start();
+      }
+    </script>
+</div>
+</section>
+  </body>
+
+
+</html>
